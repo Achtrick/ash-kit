@@ -1,0 +1,30 @@
+@mixin flexLayout(
+  $alignItems: center,
+  $justifyContent: center,
+  $flexDirection: row
+) {
+  display: flex;
+  flex-direction: $flexDirection;
+  align-items: $alignItems;
+  justify-content: $justifyContent;
+}
+.badge-container {
+  position: relative;
+  width: fit-content;
+  .badge {
+    transition: all 0.3s;
+    font-size: 10px;
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    transform: scale(1);
+    @include flexLayout(center, center, row);
+  }
+  .hidden {
+    transition: all 0.3s;
+    transform: scale(0);
+  }
+}

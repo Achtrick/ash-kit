@@ -18,8 +18,8 @@ export class XButtonComponent implements OnInit {
   }
   @Input() action: () => void = () => {};
 
-  public originalColor: string = '#000000';
-  public deducedColor: string = '#ffffff';
+  protected originalColor: string = '#000000';
+  protected deducedColor: string = '#ffffff';
 
   constructor(public AshKitService: AshKitService) {}
 
@@ -30,9 +30,11 @@ export class XButtonComponent implements OnInit {
     if (this.inversed) {
       target.style.backgroundColor = this.originalColor;
       target.style.color = this.deducedColor;
+      target.style.borderColor = this.deducedColor;
     } else {
       target.style.backgroundColor = this.deducedColor;
       target.style.color = this.originalColor;
+      target.style.borderColor = this.originalColor;
     }
   }
   mouseLeave(event: MouseEvent): void {
@@ -40,9 +42,11 @@ export class XButtonComponent implements OnInit {
     if (this.inversed) {
       target.style.backgroundColor = this.deducedColor;
       target.style.color = this.originalColor;
+      target.style.borderColor = this.originalColor;
     } else {
       target.style.backgroundColor = this.originalColor;
       target.style.color = this.deducedColor;
+      target.style.borderColor = this.deducedColor;
     }
   }
 }

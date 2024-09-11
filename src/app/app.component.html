@@ -1,6 +1,31 @@
 <x-button
-  text="works!"
+  text="load !"
   color="#000000"
-  [action]="action"
+  [action]="buttonAction"
   [loading]="loading"
 ></x-button>
+<br />
+<x-badge [content]="badgeContent" color="#ff6611"
+  ><x-button
+    text="increment !"
+    color="#ff6611"
+    [action]="badgeAction"
+  ></x-button
+></x-badge>
+<br />
+<x-button text="show toast!" color="#22ff22" [action]="showToast"></x-button>
+<br />
+<x-button
+  text="show dynamic toast!"
+  color="#20b9e3"
+  [action]="showDynamicToast"
+></x-button>
+<br />
+<x-toast
+  #XToast
+  message="toast works !"
+  [hideAfter]="5000"
+  [position]="ToastPosition.Bottom"
+  [animation]="ToastAnimation.Pop"
+  [type]="ToastType.Success"
+></x-toast>
