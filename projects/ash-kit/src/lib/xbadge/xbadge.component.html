@@ -1,12 +1,5 @@
 <div class="badge-container">
-  <span
-    [ngClass]="content > 0 ? 'badge' : 'badge hidden'"
-    [ngStyle]="{
-      'background-color': originalColor,
-      color: deducedColor,
-      border: '1px solid ' + deducedColor
-    }"
-  >
+  <span #badge [ngClass]="content > 0 ? 'badge' : 'badge hidden'">
     <p>{{ content }}</p>
   </span>
   <ng-content></ng-content>

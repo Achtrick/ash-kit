@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AshKitService } from '../ash-kit.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { AshKitService } from '../ash-kit.service';
   styleUrls: ['./xbadge.component.scss'],
 })
 export class XBadgeComponent implements OnInit {
+  @ViewChild('badge', { static: true }) badge: ElementRef<HTMLElement>;
+
   @Input() content: number = 0;
   @Input() set color(value: string) {
     this.originalColor = value;
@@ -18,5 +20,15 @@ export class XBadgeComponent implements OnInit {
 
   constructor(private AshKitService: AshKitService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setBadgeStyle();
+  }
+
+  private setBadgeStyle(): void {
+    const badge = this.badge.nativeElement;
+
+    badge.style.backgroundColor = this.originalColor;
+    badge.style.color = this.deducedColor;
+    badge.style.border = '1px solid ' + this.deducedColor;
+  }
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AshKitService {
-  constructor() {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   public isColorDark(color: string): boolean {
     const rgb = parseInt(color.slice(1), 16);
@@ -17,5 +18,9 @@ export class AshKitService {
 
   public deduceColor(color: string): string {
     return this.isColorDark(color) ? 'white' : 'black';
+  }
+
+  public loadIcon(icon: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(icon);
   }
 }

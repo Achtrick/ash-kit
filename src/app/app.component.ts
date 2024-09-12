@@ -1,5 +1,6 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import {
+  ActionButton,
   ToastAnimation,
   ToastPosition,
   ToastType,
@@ -13,15 +14,32 @@ import {
 })
 export class AppComponent {
   constructor(private viewContainerRef: ViewContainerRef) {}
-  @ViewChild('XToast') XToast: XToastComponent;
 
   title = 'AshKit';
   loading = false;
   badgeContent = 0;
   toastVisible = false;
+  popupVisible = false;
   ToastPosition = ToastPosition;
   ToastAnimation = ToastAnimation;
   ToastType = ToastType;
+  popupActionButtons: ActionButton[] = [
+    {
+      text: 'cancel',
+      color: '#ffffff',
+      action: () => {
+        this.popupVisible = false;
+      },
+    },
+    {
+      text: 'confirm',
+      color: '#ffffff',
+      action: () => {
+        this.popupVisible = false;
+        this.showDynamicToast();
+      },
+    },
+  ];
 
   buttonAction = () => {
     this.loading = true;
@@ -35,18 +53,25 @@ export class AppComponent {
   };
 
   showToast = () => {
-    this.XToast.show();
+    this.toastVisible = true;
   };
 
   showDynamicToast = () => {
-    const componentRef = this.viewContainerRef.createComponent(XToastComponent);
+    let componentRef = this.viewContainerRef.createComponent(XToastComponent);
     const xToastComponent = componentRef.instance;
     xToastComponent.type = ToastType.Info;
     xToastComponent.position = ToastPosition.Top;
-    xToastComponent.animation = ToastAnimation.Slide;
+    xToastComponent.animation = ToastAnimation.FadeOut;
     xToastComponent.hideAfter = 5000;
     xToastComponent.message = 'Dynamic toast works !';
 
-    xToastComponent.show();
+    xToastComponent.open();
+    xToastComponent.OnHiding.subscribe(() => {
+      componentRef.destroy();
+    });
+  };
+
+  showPopup = () => {
+    this.popupVisible = true;
   };
 }

@@ -1,0 +1,28 @@
+<div #overlay class="popup-overlay">
+  <div #container class="popup-container">
+    <div class="popup-title">
+      <span>{{ title }}</span>
+      <i
+        class="icon"
+        [innerHTML]="AshKitService.loadIcon(Icons.close)"
+        (click)="close()"
+      >
+      </i>
+    </div>
+    <div #content class="popup-content"><ng-content></ng-content></div>
+    <div *ngIf="actionButtons.length" class="popup-controls">
+      <x-button
+        style="margin-left: 5px"
+        *ngFor="let _ of actionButtons"
+        [text]="_.text"
+        [color]="_.color"
+        [width]="_.width"
+        [height]="_.height"
+        [inversed]="_.inversed"
+        [disabled]="_.disabled"
+        [loading]="_.loading"
+        [action]="_.action"
+      ></x-button>
+    </div>
+  </div>
+</div>

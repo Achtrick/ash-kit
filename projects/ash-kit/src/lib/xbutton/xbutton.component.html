@@ -1,30 +1,14 @@
 <button
+  #button
   (click)="action()"
   [disabled]="disabled"
-  [ngStyle]="
-    inversed
-      ? {
-          opacity: disabled ? '0.6' : '1',
-          'pointer-events': disabled ? 'none' : 'all',
-          'background-color': deducedColor,
-          color: originalColor,
-          width: width,
-          border: '1px solid ' + originalColor
-        }
-      : {
-          opacity: disabled ? '0.6' : '1',
-          'pointer-events': disabled ? 'none' : 'all',
-          'background-color': originalColor,
-          color: deducedColor,
-          width: width,
-          border: '1px solid ' + deducedColor
-        }
-  "
   (mouseover)="mouseOver($event)"
   (mouseleave)="mouseLeave($event)"
 >
-  <ng-container class="spinner" *ngIf="loading; else loaded">
-    loading ...
-  </ng-container>
+  <i
+    class="loader"
+    *ngIf="loading; else loaded"
+    [innerHtml]="AshKitService.loadIcon(Icons.loader)"
+  ></i>
   <ng-template #loaded>{{ text }}</ng-template>
 </button>

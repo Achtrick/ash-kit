@@ -1,42 +1,67 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'x-toast',
   templateUrl: './xtoast.component.html',
   styleUrls: ['./xtoast.component.scss'],
 })
-export class XToastComponent implements OnInit {
+export class XToastComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('ToastContainer', { static: true })
   private ToastContainer: ElementRef<HTMLElement>;
   @ViewChild('ToastContent', { static: true })
   private ToastContent: ElementRef<HTMLElement>;
 
+  @Input() visible: boolean = false;
   @Input() message: string = '';
   @Input() position: ToastPosition = ToastPosition.Top;
-  @Input() animation: ToastAnimation = ToastAnimation.Pop;
+  @Input() animation: ToastAnimation = ToastAnimation.FadeIn;
   @Input() type: ToastType = ToastType.Default;
   @Input() hideAfter: number = 2000;
+
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() OnHiding: EventEmitter<void> = new EventEmitter<void>();
 
   public ToastAnimation = ToastAnimation;
   public ToastPosition = ToastPosition;
   public ToastType = ToastType;
 
-  protected originalColor: string = '#000000';
-  protected deducedColor: string = '#ffffff';
-  protected visible: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  protected animate: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _visible: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _animate: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor() {}
 
   ngOnInit(): void {
-    this.setContainer();
-    this.setContent();
+    this.setContainerStyle();
+    this.setContentStyle();
   }
 
-  private setContainer(): void {
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['visible'].currentValue) {
+      this.open();
+    }
+  }
+
+  private setContainerStyle(): void {
     const toastContainer = this.ToastContainer.nativeElement;
-    this.visible.subscribe((value) => {
+    this._visible.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
       if (value) {
         toastContainer.style.display = 'flex';
         toastContainer.style.top =
@@ -49,7 +74,7 @@ export class XToastComponent implements OnInit {
     });
   }
 
-  private setContent() {
+  private setContentStyle() {
     const tostContent = this.ToastContent.nativeElement;
     let backgroundColor = '';
 
@@ -69,20 +94,27 @@ export class XToastComponent implements OnInit {
       case ToastType.Warning:
         backgroundColor = '#eb9423';
         break;
-
-      default:
-        backgroundColor = '#2e2e2e';
-        break;
     }
 
     tostContent.style.backgroundColor = backgroundColor;
 
-    this.animate.subscribe((value) => {
+    if (this.animation === ToastAnimation.FadeIn) {
+      tostContent.style.transform = 'scale(0.98)';
+    }
+    if (this.animation === ToastAnimation.FadeOut) {
+      tostContent.style.transform = 'scale(1.08)';
+    }
+
+    this._animate.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
       if (value) {
         switch (this.animation) {
-          case ToastAnimation.Pop:
+          case ToastAnimation.FadeIn:
             tostContent.style.opacity = '1';
             tostContent.style.transform = 'scale(1.08)';
+            break;
+          case ToastAnimation.FadeOut:
+            tostContent.style.opacity = '1';
+            tostContent.style.transform = 'scale(0.98)';
             break;
           case ToastAnimation.Slide:
             tostContent.style.opacity = '1';
@@ -92,45 +124,48 @@ export class XToastComponent implements OnInit {
               tostContent.style.transform = 'translateY(-20px)';
             }
             break;
-          default:
-            break;
         }
       } else {
         switch (this.animation) {
-          case ToastAnimation.Pop:
+          case ToastAnimation.FadeIn:
             tostContent.style.opacity = '0';
             tostContent.style.transform = 'scale(0.98)';
+            break;
+          case ToastAnimation.FadeOut:
+            tostContent.style.opacity = '0';
+            tostContent.style.transform = 'scale(1.08)';
             break;
           case ToastAnimation.Slide:
             tostContent.style.opacity = '0';
             tostContent.style.transform = 'translateY(0px)';
-            break;
-          default:
             break;
         }
       }
     });
   }
 
-  public show(): void {
-    if (!this.visible.value) {
-      this.visible.next(true);
+  public open(): void {
+    if (!this._visible.value) {
+      this._visible.next(true);
       setTimeout(() => {
-        this.visible.next(false);
+        this._visible.next(false);
+        this.visibleChange.emit(false);
+        this.OnHiding.emit();
       }, this.hideAfter);
       setTimeout(() => {
-        this.animate.next(true);
+        this._animate.next(true);
       }, 0);
       setTimeout(() => {
-        this.animate.next(false);
+        this._animate.next(false);
       }, this.hideAfter - 600);
     }
   }
 }
 
 export enum ToastAnimation {
+  FadeIn = 'FadeIn',
+  FadeOut = 'FadeOut',
   Slide = 'Slide',
-  Pop = 'Pop',
 }
 
 export enum ToastPosition {
