@@ -1,10 +1,11 @@
 <div #overlay class="popup-overlay">
   <div #container class="popup-container">
-    <div class="popup-title">
+    <div #header class="popup-title">
       <span>{{ title }}</span>
       <i
+        *ngIf="showCloseBtn"
         class="icon"
-        [innerHTML]="AshKitService.loadIcon(Icons.close)"
+        [innerHTML]="AshKitService.loadIcon(Icons.close, headerColor)"
         (click)="close()"
       >
       </i>

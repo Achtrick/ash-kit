@@ -20,7 +20,11 @@ export class AshKitService {
     return this.isColorDark(color) ? 'white' : 'black';
   }
 
-  public loadIcon(icon: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(icon);
+  public loadIcon(icon: string, color?: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(
+      color
+        ? icon.replace(/fill="[^"]*"/, `fill="${this.deduceColor(color)}"`)
+        : icon
+    );
   }
 }

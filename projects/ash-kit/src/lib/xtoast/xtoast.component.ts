@@ -54,7 +54,7 @@ export class XToastComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['visible'].currentValue) {
+    if (!!changes['visible'].currentValue) {
       this.open();
     }
   }

@@ -1,6 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import {
   ActionButton,
+  PopupAnimation,
   ToastAnimation,
   ToastPosition,
   ToastType,
@@ -20,6 +21,7 @@ export class AppComponent {
   badgeContent = 0;
   toastVisible = false;
   popupVisible = false;
+  PopupAnimation = PopupAnimation;
   ToastPosition = ToastPosition;
   ToastAnimation = ToastAnimation;
   ToastType = ToastType;
