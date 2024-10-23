@@ -26,7 +26,7 @@ export class XButtonComponent implements OnInit {
   protected deducedColor: string = '#ffffff';
   protected Icons: Icons = new Icons();
 
-  constructor(public AshKitService: AshKitService) {}
+  constructor(protected AshKitService: AshKitService) {}
 
   ngOnInit(): void {
     this.setButtonStyle();

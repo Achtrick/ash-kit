@@ -1,0 +1,17 @@
+<div id="wrapper" #wrapper class="gallery-wrapper">
+  <div #container class="gallery-container">
+    <div
+      #items
+      class="x-gallery-item-container"
+      *ngFor="let item of dataSource; index as i"
+    ></div>
+  </div>
+  <div class="bullets">
+    <div
+      class="bullet"
+      *ngFor="let item of dataSource; index as i"
+      [class.active]="i === currentSlideIndex"
+      (click)="slideTo(i)"
+    ></div>
+  </div>
+</div>

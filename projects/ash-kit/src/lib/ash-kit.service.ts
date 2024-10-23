@@ -21,10 +21,14 @@ export class AshKitService {
   }
 
   public loadIcon(icon: string, color?: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(
+    return this.sanitize(
       color
         ? icon.replace(/fill="[^"]*"/, `fill="${this.deduceColor(color)}"`)
         : icon
     );
+  }
+
+  public sanitize(html: any): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
