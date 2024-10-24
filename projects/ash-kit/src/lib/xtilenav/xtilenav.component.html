@@ -1,0 +1,59 @@
+<div #tileNavContainer class="tile-nav-container" [dir]="direction">
+  <div #flat class="tile-nav-flat" [class.hidden]="nestedView">
+    <div *ngFor="let item of dataSource; index as index" class="tile-nav-item">
+      <span *ngIf="index > 0" [class]="'arrow-icon'"> </span>
+      <p
+        #captions
+        [class.disabled]="disabled(item)"
+        (click)="onTileClick(item)"
+        [ngStyle]="{
+          'min-width':
+            item === dataSource[dataSource.length - 1] ? '70px' : 'auto'
+        }"
+      >
+        {{ getItemCaption(item) }}
+      </p>
+    </div>
+  </div>
+
+  <div #nested class="tile-nav-nested" [class.hidden]="!nestedView">
+    <div
+      class="tile-nav-item"
+      [class.disabled]="disabled(dataSource[0])"
+      (click)="onTileClick(dataSource[0])"
+    >
+      <p #nestedFirstCaption>{{ getItemCaption(dataSource[0]) }}</p>
+    </div>
+    <span id="menu-toggler" class="more-icon" (click)="openMenu()">
+      <div
+        *ngIf="menuOpen"
+        #menu
+        class="tile-nav-menu-container"
+        [ngStyle]="direction === 'ltr' ? { left: '0px' } : { right: '0px' }"
+      >
+        <ng-container *ngFor="let item of menuDataSource; index as index">
+          <div class="hr" *ngIf="index > 0"></div>
+          <div
+            class="tile-nav-menu-item"
+            [class.disabled]="disabled(item)"
+            (click)="onTileClick(item)"
+          >
+            <p #nestedCaptions>{{ getItemCaption(item) }}</p>
+          </div>
+        </ng-container>
+      </div>
+    </span>
+    <div
+      class="tile-nav-item"
+      (click)="onTileClick(dataSource[dataSource.length - 1])"
+    >
+      <p
+        #nestedLastCaption
+        [class.disabled]="disabled(dataSource[dataSource.length - 1])"
+        style="min-width: 70px"
+      >
+        {{ getItemCaption(dataSource[dataSource.length - 1]) }}
+      </p>
+    </div>
+  </div>
+</div>

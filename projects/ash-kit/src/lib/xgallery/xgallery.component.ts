@@ -33,12 +33,11 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   public currentSlideIndex: number = 0;
 
-  private _dataSource: any[] = [];
   private unsubscribe$: Subject<void> = new Subject();
+  private resizeObserver: ResizeObserver;
   private trigger: number = 0;
   private containerElement: HTMLElement;
   private mouseX: number = 0;
-  private slideWidth: number = 350;
 
   constructor(protected ashKitService: AshKitService) {}
 
@@ -47,12 +46,23 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
     this.setContainerStyle();
     this.updateGallery();
     this.containerElement.addEventListener('mousedown', this.onMouseDown);
+
+    if (this.container) {
+      this.resizeObserver = new ResizeObserver(
+        (entries: ResizeObserverEntry[]) => {
+          entries.forEach(() => {
+            setTimeout(() => {
+              this.slideTo(this.currentSlideIndex);
+            }, 0);
+          });
+        }
+      );
+
+      this.resizeObserver.observe(this.container.nativeElement);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['width']) {
-      this.slideWidth = Number(this.width.split('px')[0]);
-    }
     if (changes['dataSource'] && !changes['dataSource'].firstChange) {
       setTimeout(() => {
         this.updateGallery();
@@ -81,6 +91,10 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     this.detachEvents();
+
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   private setContainerStyle(): void {
@@ -108,7 +122,9 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
   };
 
   private onScrollEnd = () => {
-    const newIndex = this.containerElement.scrollLeft / this.slideWidth;
+    const newIndex =
+      this.containerElement.scrollLeft /
+      this.container.nativeElement.clientWidth;
     if (newIndex !== this.currentSlideIndex) {
       this.currentSlideIndex = newIndex;
       this.OnSlideChange.emit(this.currentSlideIndex);
@@ -141,6 +157,7 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
    * @param slideIndex the slide index that you want to navigate to.
    */
   public slideTo = (slideIndex: number) => {
-    this.containerElement.scrollLeft = this.slideWidth * slideIndex;
+    this.containerElement.scrollLeft =
+      this.container.nativeElement.clientWidth * slideIndex;
   };
 }

@@ -56,6 +56,13 @@ export class AppComponent {
     "<input type='date' placeholder='item4' />",
   ];
 
+  tileNavDataSource: any[] = [
+    { caption: 'Parent' },
+    { caption: 'Child-1' },
+    { caption: 'Child-2' },
+    { caption: 'Child-3' },
+  ];
+
   buttonAction = () => {
     this.loading = true;
     setTimeout(() => {
@@ -93,7 +100,7 @@ export class AppComponent {
   createTable() {
     const table = document.createElement('table');
     for (let i = 0; i <= 5; i++) {
-      const tr = table.insertRow();
+      table.insertRow();
     }
 
     for (let i = 0; i <= table.rows.length - 1; i++) {

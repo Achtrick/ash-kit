@@ -1,0 +1,105 @@
+:host {
+  overflow: hidden;
+}
+.tile-nav-container {
+  display: flex;
+
+  .tile-nav-item {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+    font-size: 16px;
+    &:first-child {
+      margin-left: 0px;
+    }
+    p {
+      margin: 0px;
+      padding: 2px;
+      text-wrap: nowrap;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+  .icon {
+    width: 20px;
+    height: 22px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .arrow-icon {
+    @extend .icon;
+    margin: 5px;
+    &::before {
+      content: "\276F";
+    }
+  }
+
+  .more-icon {
+    @extend .icon;
+    cursor: pointer;
+    &::before {
+      content: "\2630";
+    }
+    position: relative;
+    margin: 5px;
+
+    .tile-nav-menu-container {
+      position: absolute;
+      top: 27px;
+      padding: 5px;
+      z-index: 1000;
+      max-width: 300px;
+      border-radius: 4px;
+      background-color: #fff;
+      box-shadow: 0px 0px 10px #ccc;
+      font-family: inherit;
+      cursor: unset;
+
+      .hr {
+        height: 1px;
+        width: 100%;
+        background-color: #000;
+      }
+
+      .tile-nav-menu-item {
+        width: 100%;
+        padding: 2px 0px;
+
+        p {
+          width: 100%;
+          margin: 0px;
+          padding: 4px;
+          font-size: 16px;
+          text-wrap: nowrap;
+          border-radius: 4px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .tile-nav-flat {
+    display: inherit;
+    width: inherit;
+  }
+  .tile-nav-nested {
+    display: inherit;
+    width: inherit;
+    align-items: center;
+  }
+  .hidden {
+    opacity: 0;
+    height: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  .disabled {
+    cursor: default !important;
+  }
+}

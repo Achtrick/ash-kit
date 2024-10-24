@@ -61,6 +61,9 @@ export class XToastComponent implements OnInit, OnDestroy, OnChanges {
 
   private setContainerStyle(): void {
     const toastContainer = this.ToastContainer.nativeElement;
+    toastContainer.style.left = `calc(50% - ${
+      this.ToastContent.nativeElement.clientWidth / 2 + 'px'
+    })`;
     this._visible.pipe(takeUntil(this.unsubscribe$)).subscribe((value) => {
       if (value) {
         toastContainer.style.display = 'flex';

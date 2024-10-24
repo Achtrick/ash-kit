@@ -5,10 +5,8 @@
   (mouseover)="mouseOver($event)"
   (mouseleave)="mouseLeave($event)"
 >
-  <i
-    class="loader"
-    *ngIf="loading; else loaded"
-    [innerHtml]="AshKitService.loadIcon(Icons.loader)"
-  ></i>
+  <ng-container *ngIf="loading; else loaded">
+    <i class="x-button-loader"></i>
+  </ng-container>
   <ng-template #loaded>{{ text }}</ng-template>
 </button>

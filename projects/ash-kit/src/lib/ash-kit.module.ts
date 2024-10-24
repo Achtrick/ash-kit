@@ -4,6 +4,7 @@ import { XGalleryComponent } from '../public-api';
 import { XBadgeComponent } from './xbadge/xbadge.component';
 import { XButtonComponent } from './xbutton/xbutton.component';
 import { XpopupComponent } from './xpopup/xpopup.component';
+import { XTileNavComponent } from './xtilenav/xtilenav.component';
 import { XToastComponent } from './xtoast/xtoast.component';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { XToastComponent } from './xtoast/xtoast.component';
     XToastComponent,
     XpopupComponent,
     XGalleryComponent,
+    XTileNavComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -21,6 +23,7 @@ import { XToastComponent } from './xtoast/xtoast.component';
     XToastComponent,
     XpopupComponent,
     XGalleryComponent,
+    XTileNavComponent,
   ],
 })
 export class AshKitModule {}

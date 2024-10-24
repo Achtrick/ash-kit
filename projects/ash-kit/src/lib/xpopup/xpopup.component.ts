@@ -161,9 +161,13 @@ export class XpopupComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this._animate.next(true);
     }, 0);
+    setTimeout(() => {
+      this.container.nativeElement.style.transition = 'all 0s';
+    }, 600);
   }
 
   public close(): void {
+    this.container.nativeElement.style.transition = 'all 0.6s';
     this._visible.next(false);
     this.visibleChange.emit(false);
     this.OnHiding.emit();

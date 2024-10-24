@@ -15,7 +15,18 @@ export class XButtonComponent implements OnInit {
   @Input() height: string = '40px';
   @Input() inversed: boolean = false;
   @Input() disabled: boolean = false;
-  @Input() loading: boolean = false;
+  @Input() set loading(value: boolean) {
+    this._loading = value;
+    if (value) {
+      setTimeout(() => {
+        document.querySelector('.x-button-loader').innerHTML =
+          this.Icons.loader;
+      }, 0);
+    }
+  }
+  get loading(): boolean {
+    return this._loading;
+  }
   @Input() set color(value: string) {
     this.originalColor = value;
     this.deducedColor = this.AshKitService.deduceColor(value);
@@ -25,6 +36,8 @@ export class XButtonComponent implements OnInit {
   protected originalColor: string = '#000000';
   protected deducedColor: string = '#ffffff';
   protected Icons: Icons = new Icons();
+
+  private _loading: boolean = false;
 
   constructor(protected AshKitService: AshKitService) {}
 
