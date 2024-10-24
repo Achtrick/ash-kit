@@ -25,7 +25,7 @@
   message="toast works !"
   [hideAfter]="5000"
   [position]="ToastPosition.Bottom"
-  [animation]="ToastAnimation.FadeIn"
+  [animation]="ToastAnimation.Slide"
   [type]="ToastType.Success"
   [(visible)]="toastVisible"
 ></x-toast>
@@ -34,8 +34,9 @@
 <x-popup
   [(visible)]="popupVisible"
   [animation]="PopupAnimation.SlideDown"
-  [title]="'test'"
+  [title]="'Lorem Ipsum'"
   [actionButtons]="popupActionButtons"
+  [headerColor]="'#2000e3'"
 >
   Qu'est-ce que le Lorem Ipsum? Le Lorem Ipsum est simplement du faux texte
   employé dans la composition et la mise en page avant impression. Le Lorem
@@ -86,5 +87,9 @@
   d'humour.
 </x-popup>
 <br />
-<x-gallery [dataSource]="galleryDataSource" [width]="'500px'"></x-gallery>
+<x-gallery
+  [dataSource]="galleryDataSource"
+  [width]="'800px'"
+  [height]="'400px'"
+></x-gallery>
 <br />

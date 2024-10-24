@@ -29,14 +29,14 @@ export class AppComponent {
   popupActionButtons: ActionButton[] = [
     {
       text: 'cancel',
-      color: '#ffffff',
+      color: '#2000e3',
       action: () => {
         this.popupVisible = false;
       },
     },
     {
       text: 'confirm',
-      color: '#ffffff',
+      color: '#2000e3',
       action: () => {
         this.popupVisible = false;
         this.showDynamicToast();
@@ -65,10 +65,6 @@ export class AppComponent {
 
   badgeAction = () => {
     this.badgeContent++;
-    this.galleryDataSource = [
-      ...this.galleryDataSource,
-      this.createButton(this.generateHexCode()),
-    ];
   };
 
   showToast = () => {

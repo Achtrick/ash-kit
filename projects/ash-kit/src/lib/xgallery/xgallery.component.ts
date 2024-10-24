@@ -33,6 +33,7 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   public currentSlideIndex: number = 0;
 
+  private _dataSource: any[] = [];
   private unsubscribe$: Subject<void> = new Subject();
   private trigger: number = 0;
   private containerElement: HTMLElement;
@@ -44,8 +45,19 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
   ngAfterViewInit(): void {
     this.containerElement = this.container.nativeElement;
     this.setContainerStyle();
-    this.applyEvents();
     this.updateGallery();
+    this.containerElement.addEventListener('mousedown', this.onMouseDown);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['width']) {
+      this.slideWidth = Number(this.width.split('px')[0]);
+    }
+    if (changes['dataSource'] && !changes['dataSource'].firstChange) {
+      setTimeout(() => {
+        this.updateGallery();
+      }, 0);
+    }
   }
 
   private updateGallery() {
@@ -65,19 +77,6 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
       .forEach((img: HTMLImageElement) => (img.draggable = false));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['width']) {
-      this.slideWidth = Number(this.width.split('px')[0]);
-    }
-    if (changes['dataSource']) {
-      if (!changes['dataSource'].firstChange) {
-        setTimeout(() => {
-          this.updateGallery();
-        }, 0);
-      }
-    }
-  }
-
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
@@ -95,13 +94,6 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
     });
   }
 
-  private applyEvents(): void {
-    this.containerElement.addEventListener('mousedown', this.onMouseDown);
-    this.containerElement.addEventListener('mousemove', this.onMouseMove);
-    this.containerElement.addEventListener('mouseup', this.onMouseUp);
-    this.containerElement.addEventListener('scrollend', this.onScrollEnd);
-  }
-
   private onMouseDown = (e: MouseEvent) => {
     e.stopPropagation();
     this.mouseX = e.clientX;
@@ -112,6 +104,7 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   private onMouseMove = (e: MouseEvent) => {
     this.trigger = this.mouseX - e.clientX;
+    this.wrapper.nativeElement.style.cursor = 'grabbing';
   };
 
   private onScrollEnd = () => {
@@ -123,17 +116,18 @@ export class XGalleryComponent implements AfterViewInit, OnDestroy, OnChanges {
   };
 
   private onMouseUp = () => {
-    if (this.trigger < -30) {
+    if (this.trigger < -80) {
       if (this.currentSlideIndex > 0) {
         this.slideTo(this.currentSlideIndex - 1);
       }
-    } else if (this.trigger > 30) {
+    } else if (this.trigger > 80) {
       if (this.currentSlideIndex < this.dataSource.length - 1) {
         this.slideTo(this.currentSlideIndex + 1);
       }
     }
     this.trigger = 0;
     this.containerElement.removeEventListener('mousemove', this.onMouseMove);
+    this.wrapper.nativeElement.style.cursor = 'default';
   };
 
   private detachEvents = (): void => {
