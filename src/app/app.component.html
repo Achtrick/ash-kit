@@ -1,5 +1,5 @@
 <section class="container">
-  <x-button
+  <!-- <x-button
     text="load !"
     color="#000000"
     [action]="buttonAction"
@@ -22,14 +22,6 @@
     [action]="showDynamicToast"
   ></x-button>
   <br />
-  <x-toast
-    message="toast works !"
-    [hideAfter]="5000"
-    [position]="ToastPosition.Bottom"
-    [animation]="ToastAnimation.Slide"
-    [type]="ToastType.Success"
-    [(visible)]="toastVisible"
-  ></x-toast>
   <x-button text="show popup !" color="#2000e3" [action]="showPopup"></x-button>
   <br />
   <x-popup
@@ -90,12 +82,6 @@
     farfelus, ou des touches d'humour.
   </x-popup>
   <br />
-  <x-gallery
-    [dataSource]="galleryDataSource"
-    [width]="'100%'"
-    [height]="'400px'"
-  ></x-gallery>
-  <br />
-  <br />
-  <x-tilenav [dataSource]="tileNavDataSource" [useCdr]="true"></x-tilenav>
+  <x-tilenav [dataSource]="tileNavDataSource"></x-tilenav> -->
+  <!-- <x-editor [dataSource]="editorDataSource"></x-editor> -->
 </section>

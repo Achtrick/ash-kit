@@ -45,15 +45,15 @@ export class AppComponent {
   ];
 
   galleryDataSource: any[] = [
-    this.createTable(),
-    this.createButton(),
-    '<img width="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQghvwcgSWS3t-dnjU5sSCOjxcgaclzoLC9cQ&s" />',
-    '<img width="100%" src="https://t4.ftcdn.net/jpg/01/66/10/03/360_F_166100342_KbTGIRrnrlwGDZSXSMpH3zfn2dxyTKae.jpg" />',
-    '<h1>item 2</h1>',
-    '<div onclick="alert("clicked!")">Click me</div>',
-    "<input type='text' placeholder='item1' />",
-    '<button (onclick)="()=>console.log("clicked")">item 3</button>',
-    "<input type='date' placeholder='item4' />",
+    // this.createTable(),
+    // this.createButton(),
+    // '<img width="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQghvwcgSWS3t-dnjU5sSCOjxcgaclzoLC9cQ&s" />',
+    // '<img width="100%" src="https://t4.ftcdn.net/jpg/01/66/10/03/360_F_166100342_KbTGIRrnrlwGDZSXSMpH3zfn2dxyTKae.jpg" />',
+    // '<h1>item 2</h1>',
+    // '<div onclick="alert("clicked!")">Click me</div>',
+    // "<input type='text' placeholder='item1' />",
+    // '<button (onclick)="()=>console.log("clicked")">item 3</button>',
+    // "<input type='date' placeholder='item4' />",
   ];
 
   tileNavDataSource: any[] = [
@@ -62,6 +62,8 @@ export class AppComponent {
     { caption: 'Child-2' },
     { caption: 'Child-3' },
   ];
+
+  editorDataSource = `test`;
 
   buttonAction = () => {
     this.loading = true;

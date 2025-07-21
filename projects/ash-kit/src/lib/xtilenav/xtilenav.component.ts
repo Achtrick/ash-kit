@@ -41,10 +41,9 @@ export class XTileNavComponent implements AfterViewInit, OnDestroy {
     return this._dataSource;
   }
   @Input() displayExpr: string;
-  /** use this when your component has an OnPush change detection strategy */
-  @Input() useCdr: boolean = false;
   /** use this when you have overlaying content that hides your tile nav component */
   @Input() offset: number = 0;
+  @Input() rtlEnabled: boolean = false;
   /** function that determines if the tile is disabled */
   @Input() disabled: (
     item: any
@@ -63,7 +62,6 @@ export class XTileNavComponent implements AfterViewInit, OnDestroy {
 
   protected nestedView: boolean = false;
   protected menuOpen: boolean = false;
-  protected direction: 'rtl' | 'ltr' = 'ltr';
   protected menuDataSource: any[] = [];
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -118,7 +116,7 @@ export class XTileNavComponent implements AfterViewInit, OnDestroy {
   }
 
   private detectChanges(): void {
-    return this.useCdr && this.cdr.detectChanges();
+    return this.cdr.detectChanges();
   }
 
   /**

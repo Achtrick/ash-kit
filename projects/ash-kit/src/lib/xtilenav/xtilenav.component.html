@@ -1,4 +1,8 @@
-<div #tileNavContainer class="tile-nav-container" [dir]="direction">
+<div
+  #tileNavContainer
+  class="tile-nav-container"
+  [dir]="rtlEnabled ? 'rtl' : 'ltr'"
+>
   <div #flat class="tile-nav-flat" [class.hidden]="nestedView">
     <div *ngFor="let item of dataSource; index as index" class="tile-nav-item">
       <span *ngIf="index > 0" [class]="'arrow-icon'"> </span>
@@ -29,7 +33,7 @@
         *ngIf="menuOpen"
         #menu
         class="tile-nav-menu-container"
-        [ngStyle]="direction === 'ltr' ? { left: '0px' } : { right: '0px' }"
+        [ngStyle]="rtlEnabled ? { right: '0px' } : { left: '0px' }"
       >
         <ng-container *ngFor="let item of menuDataSource; index as index">
           <div class="hr" *ngIf="index > 0"></div>
